@@ -1,0 +1,27 @@
+.page-head{padding:10px 0 26px}
+.filters{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:22px;margin-bottom:28px}
+.f-row{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-end}
+.f-group{border:0}
+.f-group legend{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--muted);margin-bottom:8px}
+.f-opts{display:flex;flex-wrap:wrap;gap:8px}
+.f-opts input{position:absolute;opacity:0;width:1px;height:1px}
+.f-opts label{margin:0;padding:9px 16px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font-size:14px;font-weight:600;color:var(--ink);cursor:pointer;transition:.15s}
+.f-opts label:hover{border-color:var(--blue);color:var(--blued)}
+.f-opts input:checked + label{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 6px 14px rgba(74,108,247,.3)}
+.f-opts input:focus-visible + label{outline:3px solid var(--cyan);outline-offset:2px}
+.f-reset{margin-left:auto}
+.count{font-size:14px;color:var(--muted);margin-bottom:16px}
+.rooms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.rooms-grid .room-card{order:0}
+main:has(#s-price:checked) .rooms-grid .room-card{order:var(--p)}
+main:has(#s-area:checked) .rooms-grid .room-card{order:var(--a)}
+main:has(#t-office:checked) .room-card:not(.t-office){display:none}
+main:has(#t-retail:checked) .room-card:not(.t-retail){display:none}
+main:has(#t-service:checked) .room-card:not(.t-service){display:none}
+main:has(#a-s:checked) .room-card:not(.a-s){display:none}
+main:has(#a-m:checked) .room-card:not(.a-m){display:none}
+main:has(#a-l:checked) .room-card:not(.a-l){display:none}
+.empty{display:none;background:#fff;border:1.5px dashed var(--line);border-radius:var(--r);padding:40px;text-align:center;color:var(--muted)}
+main:has(#t-retail:checked):has(#a-s:checked) .empty,main:has(#t-retail:checked):has(#a-l:checked) .empty,main:has(#t-service:checked):has(#a-s:checked) .empty,main:has(#t-service:checked):has(#a-l:checked) .empty{display:block}
+@media (max-width:1100px){.rooms-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.rooms-grid{grid-template-columns:1fr}.f-row{flex-direction:column;align-items:stretch}.f-reset{margin-left:0}}

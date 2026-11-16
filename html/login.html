@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вход в личный кабинет — Круиз</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/booking.css">
+</head>
+<body>
+<main class="auth-wrap">
+<form class="auth-card" action="dashboard.html" method="get">
+<a class="logo" href="index.html"><svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a6cf7"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs><circle cx="16" cy="16" r="15" fill="url(#lg)"/><path d="M16 6l3.5 10L16 26l-3.5-10z" fill="#fff"/><circle cx="16" cy="16" r="2.4" fill="#0d1b3d"/></svg>Круиз</a>
+<h1>Личный кабинет арендатора</h1>
+<p class="auth-sub">Платежи, заявки и документы по вашему договору</p>
+<div class="field"><label class="req" for="lem">E-mail</label><input id="lem" name="email" type="email" required placeholder="tenant@kruiz54.ru" autocomplete="username"></div>
+<div class="field"><label class="req" for="pw">Пароль</label><input id="pw" name="password" type="password" required minlength="8" placeholder="Не менее 8 символов" autocomplete="current-password"></div>
+<label class="check" style="margin-bottom:18px"><input type="checkbox" name="remember" checked>Запомнить меня на этом устройстве</label>
+<button class="btn btn-p btn-block" type="submit">Войти в кабинет</button>
+<div class="demo-hint"><b>Демо-доступ прототипа:</b> e-mail <b>tenant@kruiz54.ru</b>, пароль <b>kruiz2026</b>. Серверная проверка не выполняется — форма открывает кабинет с демонстрационными данными.</div>
+<details class="forgot"><summary>Забыли пароль?</summary><p>Обратитесь к менеджеру отдела аренды: <a href="tel:+73833191361">319-13-61</a> или <a href="mailto:kruize54@yandex.ru">kruize54@yandex.ru</a> — доступ будет восстановлен после подтверждения личности.</p></details>
+<div class="auth-links"><a href="rooms.html">Нет договора? Подобрать помещение →</a><a href="index.html">На сайт</a></div>
+</form>
+</main>
+</body>
+</html>

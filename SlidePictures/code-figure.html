@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Фрагмент кода — фильтрация каталога «Круиз»</title>
+<style>
+:root{--blue:#4a6cf7;--cyan:#38bdf8;--navy:#0d1b3d;--board:#0f172a;--board-ink:#fff;--board-sub:#9fb0d8;--board-line:rgba(255,255,255,.12);--ed-bg:#1e1e1e;--ed-side:#252526;--ed-title:#3c3c3c;--ed-text:#d4d4d4;--ed-gutter:#858585;--ed-hl:#2a2d2e;--t:#569cd6;--a:#9cdcfe;--s:#ce9178;--sel:#d7ba7d;--prop:#9cdcfe;--val:#ce9178}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scrollbar-color:var(--blue) var(--navy);scrollbar-width:thin}
+::-webkit-scrollbar{width:10px;height:8px}
+::-webkit-scrollbar-track{background:var(--navy)}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#4a6cf7,#38bdf8);border-radius:8px;border:2px solid var(--navy)}
+body{font:15px/1.5 Arial,Helvetica,sans-serif;color:#fff;background:radial-gradient(900px 500px at 90% -10%,rgba(56,189,248,.2),transparent 60%),linear-gradient(160deg,#0d1b3d,#1a1a2e 60%,#12245c);min-height:100vh}
+body:has(#light:checked){--board:#f4f6fc;--board-ink:#1c2340;--board-sub:#5b6478;--board-line:#e3e8f4;--ed-bg:#fff;--ed-side:#ececec;--ed-title:#f3f3f3;--ed-text:#1f1f1f;--ed-gutter:#6e7681;--ed-hl:#f3f6fc;--t:#800000;--a:#0070c0;--s:#a31515;--sel:#800000;--prop:#0070c0;--val:#a31515}
+.toolbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 22px;background:rgba(13,27,61,.94);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.14)}
+.toolbar b{font-size:14px}
+.toolbar small{color:#c6cfe8;font-size:12.5px;margin-left:auto}
+.tg{position:absolute;opacity:0;width:1px;height:1px}
+.pill{padding:8px 16px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;font-size:13px;font-weight:700;cursor:pointer}
+.tg:checked + .pill{background:linear-gradient(135deg,#4a6cf7,#38bdf8);border-color:transparent}
+.print-btn{padding:8px 16px;border-radius:999px;border:0;background:linear-gradient(135deg,#4a6cf7,#38bdf8);color:#fff;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.wrap{display:flex;justify-content:center;padding:34px 18px 60px}
+.board{width:min(1400px,100%);background:var(--board);color:var(--board-ink);border:1px solid var(--board-line);border-radius:22px;padding:32px;box-shadow:0 30px 80px rgba(0,0,0,.4)}
+.b-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;flex-wrap:wrap;margin-bottom:22px}
+.overline{display:block;font-size:11.5px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
+body:has(#light:checked) .overline{color:var(--blue)}
+.b-head h1{font-size:clamp(20px,2.4vw,28px)}
+.b-meta{text-align:right;font-size:12.5px;color:var(--board-sub);line-height:1.7}
+.editors{display:grid;grid-template-columns:1fr 1.25fr;gap:18px;align-items:start}
+.editor{border-radius:12px;overflow:hidden;border:1px solid rgba(0,0,0,.35);box-shadow:0 16px 40px rgba(0,0,0,.3);animation:rise .5s both}
+.editor:nth-child(2){animation-delay:.1s}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.titlebar{display:flex;align-items:center;gap:12px;background:var(--ed-title);padding:9px 14px}
+.lights{display:flex;gap:7px}
+.lights i{width:11px;height:11px;border-radius:50%}
+.lights i:nth-child(1){background:#ff5f57}.lights i:nth-child(2){background:#febc2e}.lights i:nth-child(3){background:#28c840}
+.titlebar span:last-child{flex:1;text-align:center;font-size:12px;color:var(--ed-gutter)}
+.tabs{display:flex;background:var(--ed-side)}
+.tab{display:flex;align-items:center;gap:7px;padding:8px 14px;font-size:12.5px;color:var(--ed-gutter)}
+.tab.on{background:var(--ed-bg);color:var(--ed-text);border-top:2px solid var(--blue)}
+.tab i{width:8px;height:8px;border-radius:2px}
+.tab i.html{background:#e34c26}.tab i.css{background:#264de4}
+.crumb{padding:6px 16px;font-size:11.5px;color:var(--ed-gutter);background:var(--ed-bg);border-bottom:1px solid var(--board-line)}
+.code{background:var(--ed-bg);color:var(--ed-text);padding:12px 0;font:13px/1.75 Consolas,Menlo,monospace;overflow-x:auto}
+.row{display:flex;min-width:max-content}
+.row.hl{background:var(--ed-hl)}
+.n{flex:none;width:44px;text-align:right;padding-right:14px;color:var(--ed-gutter);user-select:none}
+.row code{white-space:pre;font:inherit;padding-right:18px}
+.t{color:var(--t)}.a{color:var(--a)}.s{color:var(--s)}.sel{color:var(--sel)}.prop{color:var(--prop)}.val{color:var(--val)}
+.statusbar{display:flex;gap:14px;align-items:center;background:linear-gradient(90deg,#0d47a1,#4a6cf7);color:#fff;font-size:11.5px;padding:5px 12px}
+.statusbar .right{margin-left:auto}
+.explain{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:20px}
+.step{display:flex;gap:10px;align-items:center;background:rgba(74,108,247,.12);border:1px solid rgba(74,108,247,.35);border-radius:12px;padding:10px 14px;font-size:13px}
+body:has(#light:checked) .step{background:#e7edfe;border-color:#c9d6fb}
+.step i{flex:none;width:24px;height:24px;border-radius:8px;background:linear-gradient(135deg,#4a6cf7,#38bdf8);color:#fff;font-style:normal;font-weight:800;font-size:12px;display:grid;place-items:center}
+.arrow{color:var(--cyan);font-weight:800;font-size:18px}
+.b-foot{margin-top:18px;padding-top:14px;border-top:1px solid var(--board-line);font-size:12px;color:var(--board-sub);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+@media (max-width:1100px){.editors{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+@media print{.toolbar{display:none}body{background:#fff}.wrap{padding:0}.board{width:1400px;zoom:.6;box-shadow:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}@page{size:A4 landscape;margin:8mm}}
+</style>
+</head>
+<body>
+<div class="toolbar">
+<b>Рисунок для отчёта · фрагмент кода (бывший листинг 1)</b>
+<input class="tg" type="checkbox" id="light"><label class="pill" for="light">Светлая тема</label>
+<button class="print-btn" onclick="window.print()">Сохранить в PDF</button>
+<small>Скриншот: F12 → Ctrl/Cmd+Shift+P → «full size screenshot»</small>
+</div>
+<main class="wrap">
+<section class="board">
+<header class="b-head">
+<div><span class="overline">Фрагмент программной реализации</span><h1>Фильтрация и сортировка каталога без JavaScript</h1></div>
+<div class="b-meta">ПМ.08 Разработка дизайна веб-приложений<br>Носиков Н.Е. · 9-ИС302 · ноябрь 2026</div>
+</header>
+<div class="editors">
+<div class="editor">
+<div class="titlebar"><span class="lights"><i></i><i></i><i></i></span><span>rooms.html — kruiz-cabinet</span></div>
+<div class="tabs"><span class="tab on"><i class="html"></i>rooms.html</span><span class="tab"><i class="css"></i>rooms.css</span></div>
+<div class="crumb">kruiz-cabinet › html › rooms.html</div>
+<div class="code">
+<div class="row"><span class="n">1</span><code><span class="t">&lt;fieldset</span> <span class="a">class</span>=<span class="s">"f-group"</span><span class="t">&gt;</span></code></div>
+<div class="row"><span class="n">2</span><code>  <span class="t">&lt;legend&gt;</span>Тип помещения<span class="t">&lt;/legend&gt;</span></code></div>
+<div class="row"><span class="n">3</span><code>  <span class="t">&lt;div</span> <span class="a">class</span>=<span class="s">"f-opts"</span><span class="t">&gt;</span></code></div>
+<div class="row hl"><span class="n">4</span><code>    <span class="t">&lt;input</span> <span class="a">type</span>=<span class="s">"radio"</span> <span class="a">name</span>=<span class="s">"type"</span> <span class="a">id</span>=<span class="s">"t-all"</span> <span class="a">checked</span><span class="t">&gt;</span></code></div>
+<div class="row"><span class="n">5</span><code>    <span class="t">&lt;label</span> <span class="a">for</span>=<span class="s">"t-all"</span><span class="t">&gt;</span>Все типы<span class="t">&lt;/label&gt;</span></code></div>
+<div class="row"><span class="n">6</span><code>    <span class="t">&lt;input</span> <span class="a">type</span>=<span class="s">"radio"</span> <span class="a">name</span>=<span class="s">"type"</span> <span class="a">id</span>=<span class="s">"t-office"</span><span class="t">&gt;</span></code></div>
+<div class="row"><span class="n">7</span><code>    <span class="t">&lt;label</span> <span class="a">for</span>=<span class="s">"t-office"</span><span class="t">&gt;</span>Офисы<span class="t">&lt;/label&gt;</span></code></div>
+<div class="row"><span class="n">8</span><code>    <span class="t">&lt;input</span> <span class="a">type</span>=<span class="s">"radio"</span> <span class="a">name</span>=<span class="s">"type"</span> <span class="a">id</span>=<span class="s">"t-retail"</span><span class="t">&gt;</span></code></div>
+<div class="row"><span class="n">9</span><code>    <span class="t">&lt;label</span> <span class="a">for</span>=<span class="s">"t-retail"</span><span class="t">&gt;</span>Торговые<span class="t">&lt;/label&gt;</span></code></div>
+<div class="row"><span class="n">10</span><code>  <span class="t">&lt;/div&gt;</span></code></div>
+<div class="row"><span class="n">11</span><code><span class="t">&lt;/fieldset&gt;</span></code></div>
+<div class="row"><span class="n">12</span><code> </code></div>
+<div class="row"><span class="n">13</span><code><span class="t">&lt;a</span> <span class="a">class</span>=<span class="s">"room-card t-office a-s"</span> <span class="a">style</span>=<span class="s">"--p:1;--a:6"</span></code></div>
+<div class="row"><span class="n">14</span><code>   <span class="a">href</span>=<span class="s">"room-detail.html"</span><span class="t">&gt;</span>…<span class="t">&lt;/a&gt;</span></code></div>
+</div>
+<div class="statusbar"><span>⎇ main</span><span>✓ 0 ⚠ 0</span><span class="right">UTF-8 · HTML · Ln 4, Col 42</span></div>
+</div>
+<div class="editor">
+<div class="titlebar"><span class="lights"><i></i><i></i><i></i></span><span>rooms.css — kruiz-cabinet</span></div>
+<div class="tabs"><span class="tab"><i class="html"></i>rooms.html</span><span class="tab on"><i class="css"></i>rooms.css</span></div>
+<div class="crumb">kruiz-cabinet › css › rooms.css</div>
+<div class="code">
+<div class="row hl"><span class="n">1</span><code><span class="sel">main:has(#t-office:checked) .room-card:not(.t-office)</span>{<span class="prop">display</span>:<span class="val">none</span>}</code></div>
+<div class="row"><span class="n">2</span><code><span class="sel">main:has(#t-retail:checked) .room-card:not(.t-retail)</span>{<span class="prop">display</span>:<span class="val">none</span>}</code></div>
+<div class="row"><span class="n">3</span><code><span class="sel">main:has(#t-service:checked) .room-card:not(.t-service)</span>{<span class="prop">display</span>:<span class="val">none</span>}</code></div>
+<div class="row"><span class="n">4</span><code> </code></div>
+<div class="row"><span class="n">5</span><code><span class="sel">main:has(#a-s:checked) .room-card:not(.a-s)</span>{<span class="prop">display</span>:<span class="val">none</span>}</code></div>
+<div class="row"><span class="n">6</span><code><span class="sel">main:has(#a-m:checked) .room-card:not(.a-m)</span>{<span class="prop">display</span>:<span class="val">none</span>}</code></div>
+<div class="row"><span class="n">7</span><code><span class="sel">main:has(#a-l:checked) .room-card:not(.a-l)</span>{<span class="prop">display</span>:<span class="val">none</span>}</code></div>
+<div class="row"><span class="n">8</span><code> </code></div>
+<div class="row hl"><span class="n">9</span><code><span class="sel">main:has(#s-price:checked) .rooms-grid .room-card</span>{<span class="prop">order</span>:<span class="val">var(--p)</span>}</code></div>
+<div class="row"><span class="n">10</span><code><span class="sel">main:has(#s-area:checked) .rooms-grid .room-card</span>{<span class="prop">order</span>:<span class="val">var(--a)</span>}</code></div>
+<div class="row"><span class="n">11</span><code> </code></div>
+<div class="row"><span class="n">12</span><code><span class="sel">main:has(#t-retail:checked):has(#a-s:checked) .empty</span>{<span class="prop">display</span>:<span class="val">block</span>}</code></div>
+</div>
+<div class="statusbar"><span>⎇ main</span><span>✓ 0 ⚠ 0</span><span class="right">UTF-8 · CSS · Ln 9, Col 1</span></div>
+</div>
+</div>
+<div class="explain">
+<div class="step"><i>1</i>Радиокнопки хранят выбранный фильтр</div><span class="arrow">→</span>
+<div class="step"><i>2</i>:has() считывает состояние с предка main</div><span class="arrow">→</span>
+<div class="step"><i>3</i>display:none скрывает · order переставляет</div>
+</div>
+<footer class="b-foot"><span>Фрагменты файлов html/rooms.html и css/rooms.css · проект «Круиз»</span><span>HTML5 + CSS3 · без JavaScript</span></footer>
+</section>
+</main>
+</body>
+</html>

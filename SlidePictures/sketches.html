@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Эскизы экранов — ЛК арендатора «Круиз»</title>
+<style>
+:root{--paper:#fdf9f0;--pencil:#4b4b52;--pen:#2456c4;--red:#c44536;--green:#2e7d4f;--desk:#232733;--tape:rgba(255,214,120,.65)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scrollbar-color:var(--pen) var(--desk);scrollbar-width:thin}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--desk)}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#2456c4,#4a6cf7);border-radius:8px;border:2px solid var(--desk)}
+body{font:14px/1.45 "Segoe Print","Bradley Hand","Marker Felt","Comic Sans MS",cursive;color:var(--pencil);background:radial-gradient(900px 500px at 85% -10%,rgba(74,108,247,.18),transparent 60%),radial-gradient(700px 500px at -10% 110%,rgba(36,86,196,.2),transparent 60%),var(--desk);min-height:100vh}
+:focus-visible{outline:3px solid #4a6cf7;outline-offset:2px;border-radius:8px}
+.toolbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 22px;background:rgba(20,23,32,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.14);font-family:Arial,sans-serif;color:#fff}
+.toolbar b{font-size:14px}
+.toolbar small{color:#c6cfe8;font-size:12.5px;margin-left:auto}
+.tg{position:absolute;opacity:0;width:1px;height:1px}
+.pill{padding:8px 16px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:.2s}
+.pill:hover{background:rgba(255,255,255,.18)}
+.tg:checked + .pill{background:linear-gradient(135deg,#4a6cf7,#38bdf8);border-color:transparent}
+.tg:focus-visible + .pill{outline:3px solid #38bdf8;outline-offset:2px}
+.print-btn{padding:8px 16px;border-radius:999px;border:0;background:linear-gradient(135deg,#4a6cf7,#38bdf8);color:#fff;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.wrap{display:flex;justify-content:center;padding:36px 18px 70px}
+.sheet{position:relative;width:min(1520px,100%);background:var(--paper);border-radius:6px;padding:40px 42px 34px;box-shadow:0 40px 90px rgba(0,0,0,.5);transform:rotate(-.2deg)}
+body:has(#grid:checked) .sheet{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M24 0H0v24' fill='none' stroke='%235a78c8' stroke-opacity='.12'/%3E%3C/svg%3E")}
+.tape{position:absolute;width:120px;height:32px;background:var(--tape);box-shadow:0 2px 6px rgba(0,0,0,.18);opacity:.9}
+.tape.t1{top:-14px;left:60px;transform:rotate(-5deg)}
+.tape.t2{top:-12px;right:80px;transform:rotate(4deg)}
+.stain{position:absolute;right:46px;bottom:38px;width:110px;height:110px;border-radius:50%;border:11px solid rgba(150,100,55,.13);filter:blur(.6px);pointer-events:none}
+.stain::after{content:"";position:absolute;inset:8px;border-radius:50%;border:3px solid rgba(150,100,55,.1)}
+.s-head{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;flex-wrap:wrap;margin-bottom:26px}
+.s-head h1{font-size:29px;line-height:1.2}
+.s-head h1 u{text-decoration:none;border-bottom:3px solid var(--pen);color:var(--pen)}
+.s-meta{text-align:right;font-size:13.5px;color:var(--pen);transform:rotate(.6deg)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.frame{position:relative;border:2.5px solid var(--pencil);padding:14px;background:rgba(255,255,255,.35);display:flex;flex-direction:column;gap:9px;animation:rise .55s both;transition:transform .25s,box-shadow .25s}
+.frame:nth-child(odd){border-radius:255px 15px 225px 15px/15px 225px 15px 255px;transform:rotate(-.35deg)}
+.frame:nth-child(even){border-radius:15px 225px 15px 255px/255px 15px 225px 15px;transform:rotate(.3deg)}
+.frame:hover{transform:rotate(0) translateY(-5px);box-shadow:0 18px 40px rgba(20,25,50,.22)}
+.frame:nth-child(2){animation-delay:.06s}.frame:nth-child(3){animation-delay:.12s}.frame:nth-child(4){animation-delay:.18s}.frame:nth-child(5){animation-delay:.24s}.frame:nth-child(6){animation-delay:.3s}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1}}
+.f-title{display:flex;align-items:center;gap:10px;font-size:16px;font-weight:700}
+.num{flex:none;width:30px;height:30px;display:grid;place-items:center;border:2.5px solid var(--pen);color:var(--pen);border-radius:52% 48% 55% 45%/48% 55% 45% 52%;font-size:15px}
+.cap{margin-top:auto;padding-top:8px;border-top:2px dashed rgba(75,75,82,.35);font-size:12.5px}
+.cap b{color:var(--pen)}
+body:has(#caps:checked) .cap{display:none}
+.row{display:flex;gap:8px;align-items:center}
+.col{display:flex;flex-direction:column;gap:7px}
+.box{border:2px solid var(--pencil);padding:7px 9px}
+.w1{border-radius:255px 12px 225px 12px/12px 225px 12px 255px}
+.w2{border-radius:12px 225px 12px 255px/255px 12px 225px 12px}
+.sq{display:block;height:7px;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='8'%3E%3Cpath d='M0 5Q7 1 14 5T28 5' fill='none' stroke='%234b4b52' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") repeat-x;background-size:auto 7px;opacity:.75}
+.sq.b{height:11px;background-size:auto 11px;opacity:1}
+.xbox{position:relative;border:2px solid var(--pencil);background:linear-gradient(to top right,transparent calc(50% - 1px),rgba(75,75,82,.5) calc(50% - 1px),rgba(75,75,82,.5) calc(50% + 1px),transparent calc(50% + 1px)),linear-gradient(to bottom right,transparent calc(50% - 1px),rgba(75,75,82,.5) calc(50% - 1px),rgba(75,75,82,.5) calc(50% + 1px),transparent calc(50% + 1px));display:grid;place-items:center;min-height:52px}
+.xbox span{background:var(--paper);padding:1px 8px;font-size:11px}
+.xbox.big{min-height:150px}
+.hatch{background:repeating-linear-gradient(45deg,transparent 0 5px,rgba(75,75,82,.3) 5px 7px)}
+.btn{display:inline-block;border:2px solid var(--pencil);padding:3px 12px;font-size:12.5px;width:max-content}
+.chip{display:inline-block;border:1.6px solid var(--pencil);border-radius:999px;padding:1px 10px;font-size:11px;white-space:nowrap}
+.chip.on{background:repeating-linear-gradient(45deg,transparent 0 4px,rgba(36,86,196,.25) 4px 6px);border-color:var(--pen);color:var(--pen)}
+.logo{flex:none;width:26px;height:26px;border:2px solid var(--pencil);border-radius:50% 46% 54% 48%;display:grid;place-items:center;font-size:13px;font-weight:700}
+.mini{flex:1;font-size:10.5px;text-align:center;padding:5px 4px}
+.note{color:var(--pen);font-size:12.5px;transform:rotate(-.8deg)}
+.note.red{color:var(--red)}
+.arr{position:absolute;pointer-events:none}
+.side{flex:none;width:112px;border:2px solid var(--pencil);padding:8px;display:flex;flex-direction:column;gap:5px;font-size:11px}
+.side span{padding:2px 6px}
+.side .on{background:repeating-linear-gradient(45deg,transparent 0 4px,rgba(36,86,196,.25) 4px 6px);border:1.6px solid var(--pen);color:var(--pen);border-radius:8px 100px 8px 100px/100px 8px 100px 8px}
+.side hr{border:0;border-top:2px dashed rgba(75,75,82,.35);margin:3px 0}
+.stat{flex:1;border:2px solid var(--pencil);padding:5px 7px;font-size:10px}
+.stat b{display:block;font-size:12.5px}
+.mt{width:100%;border-collapse:collapse;font-size:10.5px}
+.mt td{border-bottom:1.5px solid rgba(75,75,82,.35);padding:3px 4px}
+.tl{border-left:2.5px solid var(--pencil);padding-left:12px;font-size:11px;display:flex;flex-direction:column;gap:6px}
+.tl i{position:relative;font-style:normal}
+.tl i::before{content:"";position:absolute;left:-19px;top:3px;width:8px;height:8px;border:2.2px solid var(--pen);border-radius:50%;background:var(--paper)}
+.field{border:2px solid var(--pencil);padding:4px 9px;font-size:11.5px;flex:1}
+.bottom{display:flex;gap:24px;margin-top:26px;align-items:stretch;flex-wrap:wrap}
+.phone{flex:none;width:170px;border:2.5px solid var(--pencil);border-radius:26px 22px 28px 22px/22px 28px 22px 26px;padding:12px 10px;display:flex;flex-direction:column;gap:8px;background:rgba(255,255,255,.35)}
+.phone .notch{width:52px;height:5px;border:2px solid var(--pencil);border-radius:999px;margin:0 auto 2px}
+.phone h4{font-size:12.5px;text-align:center;color:var(--pen)}
+.decide{flex:1;min-width:280px;border:2.5px solid var(--pen);color:var(--pen);padding:16px 18px;border-radius:255px 15px 225px 15px/15px 225px 15px 255px;transform:rotate(.3deg)}
+.decide h3{font-size:16px;margin-bottom:10px}
+.decide li{list-style:none;margin:7px 0;font-size:13px}
+.decide li::before{content:"✓ ";color:var(--green);font-weight:700}
+.s-foot{margin-top:24px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--pen)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:1100px){.grid{grid-template-columns:1fr 1fr}}
+@media (max-width:700px){.grid{grid-template-columns:1fr}}
+@media print{
+.toolbar{display:none}
+body{background:#fff}
+.wrap{padding:0}
+.sheet{width:1520px;zoom:.48;box-shadow:none;transform:none;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+@page{size:A4 portrait;margin:8mm}
+}
+</style>
+</head>
+<body>
+<div class="toolbar">
+<b>Эскизы для отчёта · Рисунок 5</b>
+<input class="tg" type="checkbox" id="grid" checked><label class="pill" for="grid">Клетка бумаги</label>
+<input class="tg" type="checkbox" id="caps"><label class="pill" for="caps">Скрыть подписи</label>
+<button class="print-btn" onclick="window.print()">Сохранить в PDF</button>
+<small>Скриншот: F12 → Ctrl/Cmd+Shift+P → «full size screenshot» · или Win+Shift+S / Cmd+Shift+4</small>
+</div>
+<main class="wrap">
+<section class="sheet">
+<span class="tape t1"></span><span class="tape t2"></span><span class="stain"></span>
+<header class="s-head">
+<h1>Эскизы экранов · <u>ЛК арендатора «Круиз»</u><br>набросок до вёрстки</h1>
+<div class="s-meta">Носиков Н.Е. · 9-ИС302<br>12.11.2026 · карандаш + синяя ручка<br>ПМ.08 · проектирование дизайна</div>
+</header>
+<div class="grid">
+<article class="frame">
+<div class="f-title"><span class="num">1</span>Главная · index.html</div>
+<div class="row box w2"><span class="logo">К</span><span class="sq" style="width:34px"></span><span class="sq" style="width:34px"></span><span class="sq" style="width:34px"></span><span class="chip hatch" style="margin-left:auto">ЛК</span></div>
+<div class="row" style="align-items:stretch">
+<div class="col" style="flex:1.2"><span class="sq b" style="width:95%"></span><span class="sq b" style="width:70%"></span><span class="sq" style="width:85%"></span><span class="btn hatch">Подобрать →</span></div>
+<div class="box w1 col" style="flex:.8"><small>превью ЛК</small><span class="sq" style="width:90%"></span><span class="sq" style="width:75%"></span><span class="sq" style="width:82%"></span></div>
+</div>
+<div class="row"><span class="box w2 mini">шаг 1</span><span class="box w1 mini">шаг 2</span><span class="box w2 mini">шаг 3</span><span class="box w1 mini">шаг 4</span></div>
+<div class="row"><span class="xbox mini" style="min-height:44px"><span>карточка</span></span><span class="xbox mini" style="min-height:44px"><span>карточка</span></span><span class="xbox mini" style="min-height:44px"><span>карточка</span></span></div>
+<div class="box w2 row"><span class="sq" style="width:60px"></span><span class="sq" style="width:60px"></span><small style="margin-left:auto">подвал</small></div>
+<div class="note">hero как на сайте ПП + сразу показываем кабинет!</div>
+<div class="cap"><b>→</b> кнопка «Подобрать» ведёт в каталог, «ЛК» — на вход</div>
+</article>
+<article class="frame">
+<div class="f-title"><span class="num">2</span>Каталог · rooms.html</div>
+<span class="sq" style="width:45%"></span>
+<div class="box w1 col">
+<div class="row" style="flex-wrap:wrap"><span class="chip on">все</span><span class="chip">офисы</span><span class="chip">торговые</span><span class="chip">услуги</span></div>
+<div class="row" style="flex-wrap:wrap"><span class="chip">площадь ▾</span><span class="chip">сортировка ▾</span><span class="btn" style="margin-left:auto">сброс</span></div>
+</div>
+<div class="row"><span class="xbox mini"><span>план</span></span><span class="xbox mini"><span>план</span></span><span class="xbox mini"><span>план</span></span></div>
+<div class="row"><span class="box w2 mini">цена + бейдж</span><span class="box w1 mini">цена + бейдж</span><span class="box w2 mini">цена + бейдж</span></div>
+<div class="row"><span class="xbox mini"><span>план</span></span><span class="xbox mini"><span>план</span></span><span class="xbox mini"><span>план</span></span></div>
+<div class="note">фильтры и сортировка БЕЗ JS: :has() + order !!</div>
+<div class="note red">если пусто → подсказка «сбросьте фильтры»</div>
+<div class="cap"><b>→</b> клик по карточке открывает объект</div>
+</article>
+<article class="frame">
+<div class="f-title"><span class="num">3</span>Карточка · room-detail.html</div>
+<div class="row" style="align-items:stretch">
+<div class="xbox big w1" style="flex:1"><span>SVG-план помещения</span></div>
+<div class="col" style="flex:1">
+<span class="chip on" style="width:max-content">офис</span>
+<span class="sq b" style="width:90%"></span>
+<b style="font-size:15px">154 800 ₽/мес</b>
+<div class="row"><span class="box w2 mini">86 м²</span><span class="box w1 mini">4 этаж</span></div>
+<div class="row"><span class="box w1 mini">состояние</span><span class="box w2 mini">ставка/м²</span></div>
+<span class="sq" style="width:85%"></span><span class="sq" style="width:70%"></span>
+</div>
+</div>
+<div class="row"><span class="btn hatch">Записаться на просмотр</span><span class="btn">Позвонить</span></div>
+<div class="row"><span class="box w2 mini">похожее</span><span class="box w1 mini">похожее</span><span class="box w2 mini">похожее</span></div>
+<div class="note">план — вектор (SVG), не фото: чёткий на любом экране</div>
+<div class="cap"><b>→</b> «Записаться» ведёт на форму заявки</div>
+</article>
+<article class="frame">
+<div class="f-title"><span class="num">4</span>Заявка · booking.html</div>
+<div class="box w1 col">
+<div class="row"><span class="field w2">ФИО <b style="color:var(--red)">*</b></span><span class="field w1">Телефон <b style="color:var(--red)">*</b></span></div>
+<span class="field w2">E-mail <b style="color:var(--red)">*</b></span>
+<div class="row"><span class="field w1">тип ▾</span><span class="field w2">площадь ▾</span></div>
+<span class="field w1" style="min-height:42px">комментарий…</span>
+<span style="font-size:11.5px">☐ согласие на обработку данных <b style="color:var(--red)">*</b></span>
+<span class="btn hatch">Отправить заявку</span>
+</div>
+<div class="box w2" style="font-size:11.5px">что дальше: 1 звонок → 2 просмотр → 3 договор → 4 доступ в ЛК</div>
+<div class="note">валидация HTML5, экран «успех» через :target</div>
+<div class="cap"><b>→</b> после договора — письмо с доступом, вход в ЛК</div>
+</article>
+<article class="frame">
+<div class="f-title"><span class="num">5</span>Вход · login.html</div>
+<div class="box w2 hatch" style="padding:16px;display:grid;place-items:center">
+<div class="box w1 col" style="background:var(--paper);width:82%;align-items:center;padding:12px">
+<span class="logo">К</span>
+<b style="font-size:14px">Вход в ЛК</b>
+<span class="field w2" style="width:100%">e-mail</span>
+<span class="field w1" style="width:100%">пароль</span>
+<span style="font-size:11px;align-self:flex-start">☐ запомнить меня</span>
+<span class="btn hatch">Войти</span>
+<span class="note" style="font-size:11px">забыли пароль?</span>
+</div>
+</div>
+<div class="note">демо: tenant@kruiz54.ru / kruiz2026</div>
+<div class="note">фон — фирменный градиент, как hero главной</div>
+<div class="cap"><b>→</b> успешный вход открывает обзор кабинета</div>
+</article>
+<article class="frame">
+<div class="f-title"><span class="num">6</span>Кабинет · dashboard.html</div>
+<div class="row box w2"><span class="logo">К</span><span class="chip">кабинет</span><span style="margin-left:auto;font-size:11px">АС · выйти</span></div>
+<div class="row" style="align-items:stretch;flex:1">
+<div class="side w1"><span class="on">Обзор</span><span>Платежи</span><span>Заявки (1)</span><span>Документы</span><span>Профиль</span><hr><span>Каталог</span><span>На сайт</span></div>
+<div class="col" style="flex:1">
+<div class="row"><span class="stat w2">баланс<b>0 ₽</b></span><span class="stat w1">платёж<b>48 000</b></span><span class="stat w2">договор<b>31.12</b></span><span class="stat w1">заявки<b>1</b></span></div>
+<div class="box w1 col"><small>мой объект · офис 405</small><table class="mt"><tr><td>ноябрь</td><td>48 000</td><td>оплачено</td></tr><tr><td>октябрь</td><td>48 000</td><td>оплачено</td></tr></table></div>
+<div class="tl"><i>заявка создана</i><i>принята УК</i><i>мастер 14.11</i></div>
+</div>
+</div>
+<div class="note">на 375px сайдбар → горизонтальная лента сверху!</div>
+<div class="cap"><b>→</b> из меню: платежи, заявки, документы, профиль</div>
+</article>
+</div>
+<div class="bottom">
+<div class="phone"><span class="notch"></span><h4>Главная · 375px</h4><div class="row"><span class="logo">К</span><b style="margin-left:auto;font-size:16px">≡</b></div><span class="sq b" style="width:90%"></span><span class="sq" style="width:75%"></span><span class="btn hatch" style="width:100%;text-align:center">Подобрать</span><span class="xbox" style="min-height:40px"><span>карточка</span></span><span class="xbox" style="min-height:40px"><span>карточка</span></span><span class="note" style="font-size:10.5px">всё в 1 колонку</span></div>
+<div class="phone"><span class="notch"></span><h4>Кабинет · 375px</h4><div class="row"><span class="logo">К</span><span class="chip" style="margin-left:auto">АС</span></div><div class="row" style="overflow:hidden"><span class="chip on">обзор</span><span class="chip">платежи</span><span class="chip">зая…</span></div><span class="stat w2">баланс<b>0 ₽</b></span><span class="stat w1">платёж<b>48 000 ₽</b></span><table class="mt"><tr><td>ноябрь</td><td>оплачено</td></tr><tr><td>октябрь</td><td>оплачено</td></tr></table><span class="note" style="font-size:10.5px">таблица → скролл вбок</span></div>
+<div class="decide">
+<h3>Решения до вёрстки (синей ручкой):</h3>
+<ul>
+<li>палитра и Arial — наследуем с сайта ПП, добавляем цвета статусов</li>
+<li>10 страниц: 5 публичных + 5 кабинет, единая шапка/подвал</li>
+<li>весь интерактив на чистом CSS: :has(), :target, checkbox hack</li>
+<li>сквозные данные одного арендатора: договор К-2026/041, 48 000 ₽/мес</li>
+<li>брейкпоинты: 1100 / 900 / 560 px, таблицы в скролл-контейнере</li>
+<li>планы помещений — SVG, растровых картинок нет</li>
+</ul>
+</div>
+</div>
+<footer class="s-foot"><span>эскиз ≠ макет: блоки и переходы важнее пикселей</span><span>следующий шаг → палитра, UI-кит, вёрстка (13–14.11)</span></footer>
+</section>
+</main>
+</body>
+</html>

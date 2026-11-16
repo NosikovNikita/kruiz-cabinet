@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Заявки — Личный кабинет арендатора</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/cabinet.css">
+</head>
+<body>
+<header class="cab-top"><div class="cab-top-in">
+<a class="logo" href="dashboard.html"><svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a6cf7"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs><circle cx="16" cy="16" r="15" fill="url(#lg)"/><path d="M16 6l3.5 10L16 26l-3.5-10z" fill="#fff"/><circle cx="16" cy="16" r="2.4" fill="#0d1b3d"/></svg>Круиз<span class="cab-tag">Кабинет арендатора</span></a>
+<div class="cab-user"><span class="ava">АС</span><span class="u-name">ИП Соколов А. В.<small>Договор № К-2026/041</small></span><a class="btn btn-o btn-s" href="login.html">Выйти</a></div>
+</div></header>
+<div class="cab-layout">
+<aside class="side"><nav>
+<a href="dashboard.html">Обзор</a>
+<a href="payments.html">Платежи</a>
+<a class="on" href="requests.html">Заявки <span class="cnt">1</span></a>
+<a href="documents.html">Документы</a>
+<a href="profile.html">Профиль</a>
+<div class="sep"></div>
+<a href="rooms.html">Подобрать помещение</a>
+<a href="index.html">На сайт компании</a>
+</nav></aside>
+<main class="cab-main">
+<div class="page-head"><div><h1>Заявки в управляющую компанию</h1><p>Электрика, сантехника, пропуска, клининг — со статусами и сроками</p></div><a class="btn btn-p btn-s" href="#new">+ Новая заявка</a></div>
+<div class="req-cards">
+<div class="req-card"><span class="num">№ 217</span><div class="txt"><b>Замена светильника в рабочей зоне</b><small>Электрика · создана 10.11.2026 · мастер назначен на 14.11</small></div><span class="badge b-warn">В работе</span></div>
+<div class="req-card"><span class="num">№ 204</span><div class="txt"><b>Гостевой пропуск на 30.10</b><small>Пропуск · создана 27.10.2026 · выполнена 28.10.2026</small></div><span class="badge b-ok">Выполнена</span></div>
+<div class="req-card"><span class="num">№ 198</span><div class="txt"><b>Дубликат ключей от офиса 405</b><small>Доступ · создана 13.10.2026 · выполнена 15.10.2026</small></div><span class="badge b-ok">Выполнена</span></div>
+</div>
+<div class="two-col">
+<div>
+<div class="success" id="rsent">✓ Заявка создана и передана диспетчеру. Номер и статус появятся в списке после обработки.</div>
+<section class="panel" id="new">
+<h2>Новая заявка</h2>
+<form action="#rsent" method="get">
+<div class="form-2col">
+<div class="field"><label class="req" for="th">Тема</label><select id="th" name="theme" required><option value="">Выберите тему</option><option>Электрика</option><option>Сантехника</option><option>Пропуск / доступ</option><option>Клининг</option><option>Интернет и связь</option><option>Другое</option></select></div>
+<div class="field"><label for="rm">Помещение</label><input id="rm" type="text" value="Офис 405 «Бриз»" readonly></div>
+</div>
+<div class="field"><label class="req" for="ds">Описание</label><textarea id="ds" name="desc" required minlength="10" placeholder="Опишите проблему: что, где и когда произошло"></textarea></div>
+<div class="field"><label>Срочность</label><div class="radio-row"><label><input type="radio" name="urg" checked>Обычная (до 24 ч)</label><label><input type="radio" name="urg">Срочная (до 4 ч)</label></div></div>
+<button class="btn btn-p" type="submit">Отправить заявку</button>
+<p class="meta" style="margin-top:10px">Прототип: заявка не отправляется на сервер, экран подтверждения демонстрирует сценарий.</p>
+</form>
+</section>
+</div>
+<section class="panel">
+<h2>Регламент реакции</h2>
+<div class="lease-rows">
+<div><span>Срочные (аварийные)</span><b>до 4 часов</b></div>
+<div><span>Электрика, сантехника</span><b>до 24 часов</b></div>
+<div><span>Пропуска и доступ</span><b>в течение дня</b></div>
+<div><span>Клининг и прочее</span><b>до 2 рабочих дней</b></div>
+</div>
+<p class="meta">Диспетчерская: <a href="tel:+73833191361">319-13-61</a>, круглосуточно для аварийных заявок.</p>
+</section>
+</div>
+</main>
+</div>
+<footer class="cab-foot">© 2026 ЗАО «Фирма «КРУИЗ» · 319-13-61 · kruize54@yandex.ru · Красный проспект, 28</footer>
+</body>
+</html>

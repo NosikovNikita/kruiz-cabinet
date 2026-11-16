@@ -1,0 +1,25 @@
+.form-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:start;padding-bottom:30px}
+.form-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:30px}
+.form-2col{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+.aside-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--sh);padding:24px;margin-bottom:20px}
+.aside-card h3{font-size:16px;color:var(--navy);margin-bottom:12px}
+.aside-card p,.aside-card li{font-size:14px;color:var(--muted)}
+.aside-card ol{padding-left:18px;display:grid;gap:8px}
+.small-note{font-size:12.5px;color:var(--muted);margin-top:12px}
+.success{display:none;background:#e2f6ec;border:1.5px solid #9adbbd;border-radius:var(--r);padding:34px;text-align:center}
+.success b{display:block;font-size:20px;color:#137a4e;margin-bottom:8px}
+.success:target{display:block;animation:rise .5s both}
+.success:target + .form-card{display:none}
+.auth-wrap{min-height:100vh;display:grid;place-items:center;padding:40px 20px;background:radial-gradient(800px 500px at 90% -10%,rgba(56,189,248,.25),transparent 60%),linear-gradient(160deg,#0d1b3d,#1a1a2e 60%,#12245c)}
+.auth-card{width:min(460px,100%);background:#fff;border-radius:20px;box-shadow:0 30px 80px rgba(0,0,0,.4);padding:36px}
+.auth-card .logo{justify-content:center;margin-bottom:6px}
+.auth-card h1{font-size:22px;text-align:center;color:var(--navy);margin-bottom:4px}
+.auth-sub{text-align:center;font-size:14px;color:var(--muted);margin-bottom:22px}
+.demo-hint{border:1.5px dashed #c9d3ee;background:#f7f9ff;border-radius:12px;padding:12px 14px;font-size:13px;color:var(--muted);margin:16px 0}
+.demo-hint b{color:var(--blued)}
+.auth-links{display:flex;justify-content:space-between;font-size:14px;margin-top:16px;flex-wrap:wrap;gap:8px}
+details.forgot{margin-top:14px;font-size:14px}
+details.forgot summary{cursor:pointer;color:var(--blue);font-weight:600}
+details.forgot p{color:var(--muted);margin-top:8px}
+@media (max-width:900px){.form-grid{grid-template-columns:1fr}}
+@media (max-width:560px){.form-2col{grid-template-columns:1fr}.form-card{padding:22px}}

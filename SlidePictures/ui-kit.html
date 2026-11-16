@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UI-кит — Личный кабинет арендатора «Круиз»</title>
+<style>
+:root{--navy:#0d1b3d;--navy2:#1a1a2e;--blue:#4a6cf7;--blued:#0d47a1;--cyan:#38bdf8;--green:#1fa06a;--amber:#e8930c;--red:#e5484d;--bg:#f4f6fc;--ink:#1c2340;--muted:#5b6478;--line:#e3e8f4;--grad:linear-gradient(135deg,#4a6cf7,#38bdf8);--sh:0 10px 30px rgba(13,27,61,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scrollbar-color:var(--blue) var(--bg);scrollbar-width:thin}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#4a6cf7,#38bdf8);border-radius:8px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--blued)}
+body{font:15px/1.5 Arial,Helvetica,sans-serif;color:var(--ink);background:radial-gradient(900px 500px at 90% -10%,rgba(56,189,248,.14),transparent 60%),linear-gradient(160deg,#eef2fb,#f6f8fe)}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px;border-radius:8px}
+.toolbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px 22px;background:rgba(13,27,61,.94);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.14);color:#fff}
+.toolbar b{font-size:14px}
+.toolbar small{color:#c6cfe8;font-size:12.5px;margin-left:auto}
+.tg{position:absolute;opacity:0;width:1px;height:1px}
+.pill{padding:8px 16px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);background:rgba(255,255,255,.08);color:#fff;font-size:13px;font-weight:700;cursor:pointer;transition:.2s}
+.pill:hover{background:rgba(255,255,255,.18)}
+.tg:checked + .pill{background:var(--grad);border-color:transparent}
+.tg:focus-visible + .pill{outline:3px solid var(--cyan);outline-offset:2px}
+.print-btn{padding:8px 16px;border-radius:999px;border:0;background:var(--grad);color:#fff;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.wrap{display:flex;justify-content:center;padding:34px 18px 60px}
+.board{width:min(1440px,100%);background:#f6f8fe;border:1px solid var(--line);border-radius:24px;padding:36px;box-shadow:0 30px 80px rgba(13,27,61,.18)}
+.b-head{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap;margin-bottom:24px}
+.b-id{display:flex;gap:14px;align-items:center}
+.overline{display:block;font-size:12px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--blue);margin-bottom:4px}
+.b-head h1{font-size:clamp(22px,2.6vw,30px);color:var(--navy)}
+.b-head h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.b-meta{text-align:right;font-size:12.5px;color:var(--muted);line-height:1.7}
+.kit{background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:var(--sh);padding:20px 22px;margin-bottom:18px;animation:rise .5s both}
+.kit:nth-of-type(2){animation-delay:.05s}.kit:nth-of-type(3){animation-delay:.1s}.kit:nth-of-type(4){animation-delay:.15s}.kit:nth-of-type(5){animation-delay:.2s}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.kit-h{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.kit-n{flex:none;width:28px;height:28px;border-radius:9px;background:var(--grad);color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center}
+.kit-h h2{font-size:16px;color:var(--navy)}
+.kit-note{margin-left:auto;font-size:11.5px;color:var(--muted)}
+.st{font-size:11px;color:var(--muted);text-align:center;margin-top:7px}
+body:has(#caps:checked) .st,body:has(#caps:checked) .kit-note{display:none}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.duo .kit{margin-bottom:18px}
+.swatches{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}
+.sw{border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.sw i{display:block;height:38px}
+.sw div{padding:5px 8px}
+.sw b{display:block;font-size:10px;color:var(--navy)}
+.sw small{font-size:9.5px;color:var(--muted)}
+.type-row{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px dashed var(--line);padding:7px 0;gap:14px}
+.type-row:last-child{border-bottom:0}
+.type-row small{font-size:11px;color:var(--muted);white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:13px 24px;border-radius:12px;border:0;font:inherit;font-weight:700;font-size:14px;cursor:pointer;transition:.2s;white-space:nowrap}
+.btn-p{background:var(--grad);color:#fff;box-shadow:0 8px 20px rgba(74,108,247,.35)}
+.btn-p:hover,.btn-p.is-hover{transform:translateY(-2px);filter:brightness(1.07)}
+.btn-o{background:#fff;border:1.5px solid var(--line);color:var(--ink)}
+.btn-o:hover,.btn-o.is-hover{border-color:var(--blue);color:var(--blued)}
+.btn-l{background:rgba(255,255,255,.14);color:#fff;border:1.5px solid rgba(255,255,255,.35)}
+.btn-l:hover,.btn-l.is-hover{background:rgba(255,255,255,.24)}
+.btn-s{padding:9px 16px;font-size:13px}
+.btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;transform:none;filter:none}
+.is-focus{outline:3px solid var(--cyan);outline-offset:2px}
+.brow{display:grid;grid-template-columns:120px repeat(4,1fr);gap:12px;align-items:start;margin-bottom:14px}
+.brow:last-child{margin-bottom:0}
+.brow>b{font-size:12px;color:var(--muted);align-self:center}
+.cell{display:grid;place-items:center}
+.cell-dark{background:linear-gradient(160deg,#0d1b3d,#12245c);border-radius:12px;padding:12px;display:grid;place-items:center}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:999px;font-size:12.5px;font-weight:700}
+.b-office{background:#e7edfe;color:#2b4fd8}
+.b-retail{background:#e2f6ec;color:#137a4e}
+.b-service{background:#fdf0dd;color:#b06e05}
+.b-premium{background:linear-gradient(135deg,#1a1a2e,#4a6cf7);color:#fff}
+.b-ok{background:#e2f6ec;color:#137a4e}
+.b-warn{background:#fdf0dd;color:#b06e05}
+.b-info{background:#e7edfe;color:#2b4fd8}
+.b-danger{background:#fde7e8;color:#c22a30}
+.badge-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.badge-row:last-child{margin-bottom:0}
+.badge-row>b{font-size:12px;color:var(--muted);width:120px;flex:none}
+.fields{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.field label{font-weight:700;font-size:13px;display:block;margin-bottom:6px}
+.req::after{content:" *";color:var(--red)}
+input,select,textarea{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:12px;font:inherit;font-size:13.5px;background:#fff;color:var(--ink);transition:.15s}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px rgba(74,108,247,.15)}
+input.is-focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(74,108,247,.15)}
+input.is-error{border-color:var(--red);box-shadow:0 0 0 4px rgba(229,72,77,.12)}
+.err-msg{font-size:11px;color:var(--red);margin-top:5px}
+.check{display:flex;gap:9px;align-items:center;font-size:13px;color:var(--muted);font-weight:400}
+.check input{width:17px;height:17px;accent-color:var(--blue);flex:none}
+.extra-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:16px;align-items:end}
+textarea{min-height:64px;resize:vertical}
+.chips{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start}
+.chip-wrap{display:grid;place-items:center}
+.chip{display:inline-block;padding:9px 16px;border-radius:999px;border:1.5px solid var(--line);background:#fff;font-size:13.5px;font-weight:600;color:var(--ink);cursor:pointer;transition:.15s}
+.chip:hover,.chip.is-hover{border-color:var(--blue);color:var(--blued)}
+.chip.on{background:var(--grad);border-color:transparent;color:#fff;box-shadow:0 6px 14px rgba(74,108,247,.3)}
+.side-demo{width:230px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh);padding:10px;display:grid;gap:4px}
+.side-demo a{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:11px;color:var(--muted);font-weight:600;font-size:13.5px;text-decoration:none}
+.side-demo a::before{content:"";width:8px;height:8px;border-radius:3px;background:currentColor;opacity:.45;flex:none}
+.side-demo a.is-hover{background:#f1f4fd;color:var(--blued)}
+.side-demo a.on{background:var(--grad);color:#fff;box-shadow:0 6px 16px rgba(74,108,247,.3)}
+.side-demo a.on::before{opacity:1}
+.cnt{margin-left:auto;background:var(--amber);color:#fff;font-size:11px;font-weight:800;padding:1px 8px;border-radius:999px}
+.crumbs{display:flex;gap:8px;font-size:13px;color:var(--muted);margin-top:14px;flex-wrap:wrap}
+.crumbs a{color:var(--muted);text-decoration:none}
+.crumbs span::before{content:"/ ";color:#b9c1d6}
+.burger-demo{display:inline-flex;flex-direction:column;gap:5px;padding:12px;border:1.5px solid var(--line);border-radius:12px;margin-top:14px}
+.burger-demo span{width:24px;height:3px;border-radius:2px;background:var(--navy)}
+.nav-flex{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start}
+.room-card{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--sh);color:var(--ink);text-decoration:none;transition:.25s;width:320px}
+.room-card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(13,27,61,.16)}
+.plan{position:relative;height:150px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='200'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.55' stroke-width='2'%3E%3Crect x='30' y='24' width='360' height='152' rx='6'/%3E%3Cpath d='M150 24v96M150 120H90M240 176V96h150M240 96V24M90 120v56M300 96v40'/%3E%3Cpath d='M150 120a24 24 0 0 1 24 24' stroke-opacity='.9'/%3E%3C/g%3E%3C/svg%3E"),linear-gradient(135deg,#4a6cf7,#0d47a1);background-size:cover}
+.plan .badge{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.94)}
+.plan .meters{position:absolute;right:12px;bottom:10px;color:#fff;font-weight:800;font-size:20px;text-shadow:0 2px 8px rgba(0,0,0,.3)}
+.card-body{padding:18px;display:flex;flex-direction:column;gap:9px}
+.price{font-size:20px;font-weight:800;color:var(--navy)}
+.price small{font-size:12.5px;color:var(--muted);font-weight:400}
+.room-card h3{font-size:16px;color:var(--navy)}
+.meta{font-size:13px;color:var(--muted)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tags span{font-size:11.5px;background:#f1f4fd;color:#41508a;padding:4px 10px;border-radius:999px}
+.card-link{font-weight:700;color:var(--blue);font-size:14px}
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);text-align:left;padding:10px 12px;border-bottom:2px solid var(--line)}
+.tbl td{padding:12px;border-bottom:1px solid var(--line)}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tr:hover td{background:#f7f9ff}
+.doc-row{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:var(--sh);padding:14px 16px;margin-top:16px;flex-wrap:wrap}
+.doc-ico{width:44px;height:44px;border-radius:12px;background:var(--grad);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:800;flex:none}
+.doc-row .txt{flex:1;min-width:160px}
+.doc-row .txt b{display:block;font-size:13.5px;color:var(--navy)}
+.doc-row .txt small{color:var(--muted);font-size:12px}
+.widgets{display:grid;grid-template-columns:1fr 1fr 1.2fr 1.2fr;gap:16px;align-items:start}
+.stat{background:#fff;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:14px;box-shadow:var(--sh);padding:14px 16px}
+.stat.ok{border-left-color:var(--green)}
+.stat.warn{border-left-color:var(--amber)}
+.stat span{font-size:12px;color:var(--muted);display:block}
+.stat b{font-size:20px;color:var(--navy);display:block;margin:2px 0}
+.stat small{font-size:11.5px;color:var(--muted)}
+.timeline{list-style:none;border-left:2px solid var(--line);padding-left:20px;display:grid;gap:12px;margin-top:4px}
+.timeline li{position:relative;font-size:13px}
+.timeline li::before{content:"";position:absolute;left:-27px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--grad);border:2.5px solid #fff;box-shadow:0 0 0 2px var(--line)}
+.timeline li.done::before{background:var(--green)}
+.timeline small{display:block;color:var(--muted);font-size:11.5px}
+.notif{list-style:none;display:grid;gap:10px}
+.notif li{display:flex;gap:10px;font-size:13px;align-items:flex-start}
+.notif i{width:9px;height:9px;border-radius:50%;background:var(--blue);margin-top:6px;flex:none}
+.notif i.g{background:var(--green)}
+.notif i.a{background:var(--amber)}
+.notif small{display:block;color:var(--muted);font-size:11.5px}
+.b-foot{margin-top:6px;padding-top:16px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:1100px){.duo,.fields,.widgets{grid-template-columns:1fr 1fr}.brow{grid-template-columns:100px repeat(2,1fr)}.swatches{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:680px){.duo,.fields,.widgets,.extra-row{grid-template-columns:1fr}.brow{grid-template-columns:1fr 1fr}.brow>b{grid-column:1/-1}.swatches{grid-template-columns:repeat(2,1fr)}}
+@media print{
+.toolbar{display:none}
+body{background:#fff}
+.wrap{padding:0}
+.board{width:1440px;zoom:.48;box-shadow:none;border:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+@page{size:A4 portrait;margin:8mm}
+}
+</style>
+</head>
+<body>
+<div class="toolbar">
+<b>UI-кит для отчёта · Рисунок 8 и Приложение А</b>
+<input class="tg" type="checkbox" id="caps"><label class="pill" for="caps">Скрыть подписи</label>
+<button class="print-btn" onclick="window.print()">Сохранить в PDF</button>
+<small>Скриншот: F12 → Ctrl/Cmd+Shift+P → «full size screenshot» · или Win+Shift+S / Cmd+Shift+4</small>
+</div>
+<main class="wrap">
+<section class="board">
+<header class="b-head">
+<div class="b-id">
+<svg width="48" height="48" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a6cf7"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs><circle cx="16" cy="16" r="15" fill="url(#lg)"/><path d="M16 6l3.5 10L16 26l-3.5-10z" fill="#fff"/><circle cx="16" cy="16" r="2.4" fill="#0d1b3d"/></svg>
+<div><span class="overline">UI-кит · библиотека компонентов</span><h1>Личный кабинет арендатора <em>«Круиз»</em></h1></div>
+</div>
+<div class="b-meta">ПМ.08 Разработка дизайна веб-приложений<br>Носиков Н.Е. · 9-ИС302 · ноябрь 2026<br>Единый источник стилей: css/style.css</div>
+</header>
+
+<section class="kit">
+<div class="kit-h"><span class="kit-n">01</span><h2>Цветовая палитра</h2><span class="kit-note">доминанта наследована с сайта ПМ.05 · статусы — семантические</span></div>
+<div class="swatches">
+<div class="sw"><i style="background:#4a6cf7"></i><div><b>Доминанта</b><small>#4a6cf7</small></div></div>
+<div class="sw"><i style="background:#0d47a1"></i><div><b>Глубокий синий</b><small>#0d47a1</small></div></div>
+<div class="sw"><i style="background:#38bdf8"></i><div><b>Акцент</b><small>#38bdf8</small></div></div>
+<div class="sw"><i style="background:#0d1b3d"></i><div><b>Фон / подвал</b><small>#0d1b3d</small></div></div>
+<div class="sw"><i style="background:#1fa06a"></i><div><b>Успех</b><small>#1fa06a</small></div></div>
+<div class="sw"><i style="background:#e8930c"></i><div><b>Внимание</b><small>#e8930c</small></div></div>
+<div class="sw"><i style="background:#e5484d"></i><div><b>Ошибка</b><small>#e5484d</small></div></div>
+<div class="sw"><i style="background:#f4f6fc"></i><div><b>Поверхность</b><small>#f4f6fc</small></div></div>
+</div>
+</section>
+
+<section class="kit">
+<div class="kit-h"><span class="kit-n">02</span><h2>Типографика</h2><span class="kit-note">Arial · Helvetica · sans-serif</span></div>
+<div class="type-row"><span style="font-size:30px;font-weight:800;color:#0d1b3d">Заголовок экрана</span><small>26–38 px · 800</small></div>
+<div class="type-row"><span style="font-size:20px;font-weight:700;color:#0d1b3d">Заголовок панели</span><small>17 px · 700</small></div>
+<div class="type-row"><span style="font-size:16px">Основной текст интерфейса</span><small>16 px · 400</small></div>
+<div class="type-row"><span style="font-size:14px">Строки таблиц и списков</span><small>14,5 px · 400</small></div>
+<div class="type-row"><span style="font-size:12px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:#4a6cf7">Надзаголовок-оврлайн</span><small>12–13 px · 800 · разрядка 2,5 px</small></div>
+</section>
+
+<section class="kit">
+<div class="kit-h"><span class="kit-n">03</span><h2>Кнопки</h2><span class="kit-note">радиус 12 px · обычная 13×24 · малая 9×16 · градиент #4a6cf7 → #38bdf8</span></div>
+<div class="brow"><b>Основная</b>
+<div class="cell"><div><button class="btn btn-p">Подобрать →</button><div class="st">обычное</div></div></div>
+<div class="cell"><div><button class="btn btn-p is-hover">Подобрать →</button><div class="st">наведение: подъём −2px</div></div></div>
+<div class="cell"><div><button class="btn btn-p is-focus">Подобрать →</button><div class="st">фокус: кольцо #38bdf8</div></div></div>
+<div class="cell"><div><button class="btn btn-p" disabled>Подобрать →</button><div class="st">неактивна: 45 %</div></div></div>
+</div>
+<div class="brow"><b>Контурная</b>
+<div class="cell"><div><button class="btn btn-o">Позвонить</button><div class="st">обычное</div></div></div>
+<div class="cell"><div><button class="btn btn-o is-hover">Позвонить</button><div class="st">наведение: синий контур</div></div></div>
+<div class="cell"><div><button class="btn btn-o btn-s">Скачать</button><div class="st">малый размер</div></div></div>
+<div class="cell"><div><button class="btn btn-o" disabled>Позвонить</button><div class="st">неактивна</div></div></div>
+</div>
+<div class="brow"><b>На тёмном</b>
+<div class="cell"><div><div class="cell-dark"><button class="btn btn-l">Войти в кабинет</button></div><div class="st">обычное</div></div></div>
+<div class="cell"><div><div class="cell-dark"><button class="btn btn-l is-hover">Войти в кабинет</button></div><div class="st">наведение</div></div></div>
+<div class="cell"><div><div class="cell-dark"><button class="btn btn-p">Открыть каталог</button></div><div class="st">основная на тёмном</div></div></div>
+<div class="cell"><div><div class="cell-dark"><button class="btn btn-l is-focus">Открыть каталог</button></div><div class="st">фокус</div></div></div>
+</div>
+</section>
+
+<section class="kit">
+<div class="kit-h"><span class="kit-n">04</span><h2>Бейджи и статусы</h2><span class="kit-note">цвет всегда несёт смысл · дублируется текстом</span></div>
+<div class="badge-row"><b>Типы объектов</b><span class="badge b-office">Офис</span><span class="badge b-retail">Торговое</span><span class="badge b-service">Услуги</span><span class="badge b-premium">Премиум</span></div>
+<div class="badge-row"><b>Платежи</b><span class="badge b-ok">Оплачено</span><span class="badge b-warn">Ожидает оплаты</span><span class="badge b-danger">Просрочено</span><span class="badge b-info">Счёт выставлен</span></div>
+<div class="badge-row"><b>Заявки в УК</b><span class="badge b-info">Создана</span><span class="badge b-warn">В работе</span><span class="badge b-ok">Выполнена</span></div>
+</section>
+
+<section class="kit">
+<div class="kit-h"><span class="kit-n">05</span><h2>Поля форм</h2><span class="kit-note">валидация HTML5 · фокус-кольцо 4 px · ошибка #e5484d</span></div>
+<div class="fields">
+<div class="field"><label class="req" for="f1">E-mail</label><input id="f1" type="email" placeholder="you@company.ru"><div class="st">пустое · placeholder</div></div>
+<div class="field"><label class="req" for="f2">E-mail</label><input id="f2" type="email" value="tenant@kruiz54.ru"><div class="st">заполненное</div></div>
+<div class="field"><label class="req" for="f3">E-mail</label><input id="f3" type="email" value="tenant@kruiz54.ru" class="is-focus"><div class="st">фокус</div></div>
+<div class="field"><label class="req" for="f4">E-mail</label><input id="f4" type="email" value="tenant@" class="is-error"><div class="err-msg">Введите корректный e-mail</div><div class="st">ошибка валидации</div></div>
+</div>
+<div class="extra-row">
+<div class="field"><label for="f5">Тип помещения</label><select id="f5"><option>Офис</option><option>Торговое</option><option>Услуги</option><option>Премиум-офис</option></select><div class="st">выпадающий список</div></div>
+<div class="field"><label for="f6">Комментарий</label><textarea id="f6" placeholder="Пожелания к просмотру…"></textarea><div class="st">многострочное поле</div></div>
+<div class="field"><label class="check"><input type="checkbox" checked>Напоминать о платеже за 3 дня</label><div class="st">чекбокс · accent-color #4a6cf7</div></div>
+</div>
+</section>
+
+<div class="duo">
+<section class="kit">
+<div class="kit-h"><span class="kit-n">06</span><h2>Чипы фильтров</h2><span class="kit-note">радиокнопки + :has() · без JS</span></div>
+<div class="chips">
+<div class="chip-wrap"><span class="chip">Все типы</span><div class="st">обычное</div></div>
+<div class="chip-wrap"><span class="chip is-hover">Офисы</span><div class="st">наведение</div></div>
+<div class="chip-wrap"><span class="chip on">Торговые</span><div class="st">выбрано</div></div>
+<div class="chip-wrap"><span class="chip is-focus">Услуги</span><div class="st">фокус</div></div>
+<div class="chip-wrap"><span class="chip">до 30 м²</span><div class="st">площадь</div></div>
+<div class="chip-wrap"><span class="chip on">Сначала дешевле</span><div class="st">сортировка</div></div>
+</div>
+</section>
+<section class="kit">
+<div class="kit-h"><span class="kit-n">07</span><h2>Навигация</h2><span class="kit-note">сайдбар ЛК · хлебные крошки · бургер</span></div>
+<div class="nav-flex">
+<div>
+<div class="side-demo">
+<a class="on" href="#">Обзор</a>
+<a class="is-hover" href="#">Платежи</a>
+<a href="#">Заявки <span class="cnt">1</span></a>
+<a href="#">Документы</a>
+</div>
+<div class="st">активный · наведение · счётчик</div>
+</div>
+<div>
+<div class="crumbs"><a href="#">Главная</a><span><a href="#">Каталог</a></span><span>Опенспейс «Флагман»</span></div>
+<div class="st" style="text-align:left">хлебные крошки</div>
+<div class="burger-demo"><span></span><span></span><span></span></div>
+<div class="st" style="text-align:left">бургер ≤900px · checkbox hack</div>
+</div>
+</div>
+</section>
+</div>
+
+<div class="duo">
+<section class="kit">
+<div class="kit-h"><span class="kit-n">08</span><h2>Карточка помещения</h2><span class="kit-note">наведение: подъём −6px + тень</span></div>
+<a class="room-card" href="#">
+<div class="plan"><span class="badge b-office">Офис</span><span class="meters">32 м²</span></div>
+<div class="card-body">
+<span class="price">48 000 ₽ <small>/ мес</small></span>
+<h3>Офис-студия «Бриз»</h3>
+<p class="meta">Красный проспект, 28 · 4 этаж</p>
+<div class="tags"><span>Готов к въезду</span><span>Кондиционер</span></div>
+<span class="card-link">Подробнее →</span>
+</div>
+</a>
+<div class="st" style="text-align:left;margin-top:10px">SVG-план в шапке · бейдж типа · цена · чипы особенностей</div>
+</section>
+<section class="kit">
+<div class="kit-h"><span class="kit-n">09</span><h2>Таблицы и строки документов</h2><span class="kit-note">скролл-контейнер на мобильных</span></div>
+<table class="tbl">
+<tr><th>Период</th><th>Сумма</th><th>Статус</th></tr>
+<tr><td>Ноябрь 2026</td><td>48 000 ₽</td><td><span class="badge b-ok">Оплачено</span></td></tr>
+<tr><td>Декабрь 2026</td><td>48 000 ₽</td><td><span class="badge b-warn">Ожидает</span></td></tr>
+<tr><td>Октябрь 2026</td><td>48 000 ₽</td><td><span class="badge b-ok">Оплачено</span></td></tr>
+</table>
+<div class="doc-row"><span class="doc-ico">PDF</span><div class="txt"><b>Счёт № 1130 за декабрь 2026</b><small>0,2 МБ · выставлен 05.11.2026 · 48 000 ₽</small></div><button class="btn btn-p btn-s">Скачать</button></div>
+<div class="st" style="text-align:left">строка документа: иконка · метаданные · действие</div>
+</section>
+</div>
+
+<section class="kit">
+<div class="kit-h"><span class="kit-n">10</span><h2>Виджеты кабинета</h2><span class="kit-note">стат-карты · таймлайн заявки · уведомления</span></div>
+<div class="widgets">
+<div><div class="stat ok"><span>Баланс</span><b>0 ₽</b><small>Задолженности нет</small></div><div class="st">стат-карта · успех</div></div>
+<div><div class="stat warn"><span>Заявки в работе</span><b>1</b><small>№ 217 · Электрика</small></div><div class="st">стат-карта · внимание</div></div>
+<div>
+<ul class="timeline">
+<li class="done">Создана<small>10.11.2026, 09:14</small></li>
+<li class="done">Принята УК<small>11.11.2026, 10:02</small></li>
+<li>Мастер назначен<small>12.11.2026, 16:40</small></li>
+</ul>
+<div class="st" style="text-align:left">таймлайн заявки № 217</div>
+</div>
+<div>
+<ul class="notif">
+<li><i class="a"></i><div>Выставлен счёт № 1130 — 48 000 ₽<small>05.11.2026 · оплатить до 01.12</small></div></li>
+<li><i class="g"></i><div>Платёж за ноябрь зачтён<small>01.11.2026 · 48 000 ₽</small></div></li>
+<li><i></i><div>Готов акт сверки за III квартал<small>28.10.2026 · раздел «Документы»</small></div></li>
+</ul>
+<div class="st" style="text-align:left">лента уведомлений</div>
+</div>
+</div>
+</section>
+
+<footer class="b-foot">
+<span>Все компоненты используют классы общих файлов css/style.css и css/cabinet.css — единый стиль на всех 10 страницах</span>
+<span>Интерактив без JavaScript · состояния :hover / :focus-visible / :user-invalid</span>
+</footer>
+</section>
+</main>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Обзор — Личный кабинет арендатора</title>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/cabinet.css">
+</head>
+<body>
+<header class="cab-top"><div class="cab-top-in">
+<a class="logo" href="dashboard.html"><svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4a6cf7"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs><circle cx="16" cy="16" r="15" fill="url(#lg)"/><path d="M16 6l3.5 10L16 26l-3.5-10z" fill="#fff"/><circle cx="16" cy="16" r="2.4" fill="#0d1b3d"/></svg>Круиз<span class="cab-tag">Кабинет арендатора</span></a>
+<div class="cab-user"><span class="ava">АС</span><span class="u-name">ИП Соколов А. В.<small>Договор № К-2026/041</small></span><a class="btn btn-o btn-s" href="login.html">Выйти</a></div>
+</div></header>
+<div class="cab-layout">
+<aside class="side"><nav>
+<a class="on" href="dashboard.html">Обзор</a>
+<a href="payments.html">Платежи</a>
+<a href="requests.html">Заявки <span class="cnt">1</span></a>
+<a href="documents.html">Документы</a>
+<a href="profile.html">Профиль</a>
+<div class="sep"></div>
+<a href="rooms.html">Подобрать помещение</a>
+<a href="index.html">На сайт компании</a>
+</nav></aside>
+<main class="cab-main">
+<div class="page-head"><div><h1>Добрый день, Андрей Викторович</h1><p>Сводка по договору № К-2026/041 от 01.02.2026 · пятница, 13 ноября 2026</p></div><a class="btn btn-p btn-s" href="requests.html#new">+ Создать заявку</a></div>
+<div class="stats">
+<div class="stat ok"><span>Баланс</span><b>0 ₽</b><small>Задолженности нет</small></div>
+<div class="stat info"><span>Следующий платёж</span><b>48 000 ₽</b><small>до 1 декабря 2026</small></div>
+<div class="stat"><span>Договор действует</span><b>до 31.12.2026</b><small>Пролонгация доступна</small></div>
+<div class="stat warn"><span>Заявки в работе</span><b>1</b><small>№ 217 · Электрика</small></div>
+</div>
+<div class="two-col">
+<div>
+<section class="panel">
+<h2>Мой объект <span class="badge b-office">Офис</span></h2>
+<b style="font-size:18px;color:var(--navy)">Офис 405 «Бриз» · 32 м²</b>
+<p class="meta">Красный проспект, 28 · 4 этаж · готов к работе</p>
+<div class="lease-rows">
+<div><span>Арендная ставка</span><b>48 000 ₽ / мес</b></div>
+<div><span>Обеспечительный платёж</span><b>48 000 ₽ · учтён</b></div>
+<div><span>Коммунальные платежи</span><b>включены</b></div>
+<div><span>Оплачено до</span><b>30.11.2026</b></div>
+</div>
+<div class="actions" style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-o btn-s" href="documents.html">Документы по договору</a><a class="btn btn-o btn-s" href="rooms.html">Расширить площадь</a></div>
+</section>
+<section class="panel">
+<h2>Последние платежи <a href="payments.html">Все платежи →</a></h2>
+<div class="tbl-wrap"><table class="tbl">
+<tr><th>Дата</th><th>Назначение</th><th>Сумма</th><th>Статус</th></tr>
+<tr><td>01.11.2026</td><td>Аренда за ноябрь · счёт № 1082</td><td>48 000 ₽</td><td><span class="badge b-ok">Оплачено</span></td></tr>
+<tr><td>01.10.2026</td><td>Аренда за октябрь · счёт № 1035</td><td>48 000 ₽</td><td><span class="badge b-ok">Оплачено</span></td></tr>
+<tr><td>01.09.2026</td><td>Аренда за сентябрь · счёт № 987</td><td>48 000 ₽</td><td><span class="badge b-ok">Оплачено</span></td></tr>
+</table></div>
+</section>
+</div>
+<div>
+<section class="panel">
+<h2>Заявка № 217 <span class="badge b-warn">В работе</span></h2>
+<p style="font-size:14.5px">Замена светильника в рабочей зоне офиса 405</p>
+<ul class="timeline">
+<li class="done">Создана<small>10.11.2026, 09:14</small></li>
+<li class="done">Принята управляющей компанией<small>11.11.2026, 10:02</small></li>
+<li>Мастер назначен на 14.11<small>12.11.2026, 16:40</small></li>
+</ul>
+<a href="requests.html" style="font-size:14px;font-weight:700">Все заявки →</a>
+</section>
+<section class="panel" id="notif">
+<h2>Уведомления</h2>
+<ul class="notif">
+<li><i class="a"></i><div>Выставлен счёт № 1130 за декабрь — 48 000 ₽<small>05.11.2026 · оплатить до 01.12.2026</small></div></li>
+<li><i class="g"></i><div>Платёж за ноябрь зачтён<small>01.11.2026 · 48 000 ₽</small></div></li>
+<li><i></i><div>Готов акт сверки за III квартал<small>28.10.2026 · раздел «Документы»</small></div></li>
+</ul>
+</section>
+</div>
+</div>
+<div class="quick">
+<a href="requests.html#new">Создать заявку<small>Электрика, пропуск, клининг</small></a>
+<a href="payments.html">Платежи<small>Счета и реквизиты</small></a>
+<a href="documents.html">Документы<small>Договор, акты, счета</small></a>
+<a href="rooms.html">Подобрать помещение<small>Каталог объектов</small></a>
+</div>
+</main>
+</div>
+<footer class="cab-foot">© 2026 ЗАО «Фирма «КРУИЗ» · 319-13-61 · kruize54@yandex.ru · Красный проспект, 28</footer>
+</body>
+</html>
