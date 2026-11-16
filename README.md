@@ -27,6 +27,7 @@ kruiz-cabinet/
 ├── html/            10 страниц приложения
 ├── css/             6 файлов стилей
 ├── screenshots/     скриншоты страниц
+├── SlidePicture/ UI-кит, дашборд
 └── README.md
 ```
 
